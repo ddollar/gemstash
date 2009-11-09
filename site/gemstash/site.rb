@@ -1,7 +1,14 @@
 require 'sinatra'
+require 'uuid'
+
 require 'gemstash'
+require 'gemstash/couchdb'
+require 'gemstash/s3'
 
 class Gemstash::Site < Sinatra::Base
+
+  include Gemstash::CouchDB
+  include Gemstash::S3
 
   set :app_file, __FILE__
   set :display_configs, 3
@@ -15,10 +22,14 @@ class Gemstash::Site < Sinatra::Base
     haml :index
   end
 
+  get '/gems' do
+    s3.keys.inspect
+  end
+
   post '/gems' do
-    raise request.env.keys.inspect
-    raise request.env['HTTP_AUTHORIZATION'].inspect
-    raise request.body.read.inspect
+    filename = "#{UUID.generate}.gem"
+    couchdb.save_doc :class => 'job', :type => 'upload', :filename => filename
+    s3.put "temp/#{UUID.generate}.gem", request.body.read
   end
 
 end
