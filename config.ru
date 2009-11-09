@@ -2,6 +2,7 @@ require 'rubygems'
 require 'rack_environment'
 require 'libdir'
 
+libdir  'common'
 libdir  'site'
 require 'gemstash/site'
 
