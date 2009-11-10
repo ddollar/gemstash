@@ -1,4 +1,5 @@
 require 'couchrest'
+require 'gemstash'
 
 module Gemstash::CouchDB
 

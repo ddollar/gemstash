@@ -1,4 +1,5 @@
 require 'right_aws'
+require 'gemstash'
 
 module Gemstash::S3
   
