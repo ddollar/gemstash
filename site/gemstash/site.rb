@@ -1,3 +1,4 @@
+require 'rubygems/specification'
 require 'sinatra'
 require 'uuid'
 
@@ -26,14 +27,20 @@ class Gemstash::Site < Sinatra::Base
     haml :index
   end
 
-  get '/gems' do
-    s3.keys.inspect
+  get '/gems/:name' do |name|
+    spec_hash = couchdb.first('gems/all', :key => name)
+    spec = Gem::Specification.new
+    spec_hash.each do |key, value|
+      method = "#{key}="
+      spec.send(method, value) if spec.respond_to?(method)
+    end
+    raise spec.inspect
   end
 
   post '/gems' do
     filename = "#{UUID.generate}.gem"
     couchdb.save_doc :class => 'job', :type => 'upload', :filename => filename
-    s3.put "temp/#{UUID.generate}.gem", request.body.read
+    s3.put "temp/#{filename}", request.body.read
     queue.enqueue Gemstash::Job::ProcessUpload.new(filename)
   end
 

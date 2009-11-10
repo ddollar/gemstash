@@ -11,7 +11,7 @@ namespace :jobs do
 
   desc 'Run the job queue'
   task :work => :rack_environment do
-    worker.start
+    worker.start(:sleep => 1)
   end
   
 end
