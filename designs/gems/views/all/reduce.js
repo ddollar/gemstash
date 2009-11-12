@@ -64,11 +64,11 @@ function(key, values) {
     var sort = version_b.sort_against(version_a);
 
     if (sort == 0) {
-      if (version_a.updated_at == version_b.updated_at) { sort = 0; }
-      sort = (version_b.updated_at > version_a.updated_at) ? -1 : 1;
+      if (a.updated_at == b.updated_at) { sort = 0; }
+      sort = (b.updated_at > a.updated_at) ? -1 : 1;
     }
 
-    return (sort);
+    return(sort);
   });
 
   return({
