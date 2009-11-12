@@ -42,13 +42,9 @@ class Gemstash::Site < Sinatra::Base
   end
 
   post '/gems' do
-    begin
-      filename = "#{UUID.generate}.gem"
-      s3.put "temp/#{filename}", request.body.read
-      queue.enqueue Gemstash::Job::ProcessUpload.new(filename)
-    rescue Exception => ex
-      return ex.inspect
-    end
+    filename = "#{UUID.generate}.gem"
+    s3.put "temp/#{filename}", request.body.read
+    queue.enqueue Gemstash::Job::ProcessUpload.new(filename)
   end
 
 private ######################################################################
