@@ -47,7 +47,7 @@ class Gemstash::Site < Sinatra::Base
       s3.put "temp/#{filename}", request.body.read
       queue.enqueue Gemstash::Job::ProcessUpload.new(filename)
     rescue Exception => ex
-      render :text => ex.inspect
+      return ex.inspect
     end
   end
 
