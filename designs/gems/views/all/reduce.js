@@ -71,5 +71,10 @@ function(key, values) {
     return (sort);
   });
 
-  return({ _id: sorted[0]._id, name: sorted[0].name, version: sorted[0].version })
+  return({
+    _id:        sorted[0]._id,
+    name:       sorted[0].name,
+    version:    sorted[0].version,
+    updated_at: sorted[0].updated_at
+  });
 }

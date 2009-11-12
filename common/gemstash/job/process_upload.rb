@@ -39,6 +39,9 @@ private ######################################################################
       }
     end
 
+    spec_hash[:created_at] = Time.now
+    spec_hash[:updated_at] = Time.now
+
     spec_hash
   end
 

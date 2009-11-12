@@ -79,9 +79,6 @@ private ######################################################################
       )
     end
 
-    gem['created_at'] = Time.now
-    gem['updated_at'] = Time.now
-
     spec
   end
 
