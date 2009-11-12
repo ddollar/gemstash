@@ -23,9 +23,9 @@ class Gemstash::Site < Sinatra::Base
     set :show_exceptions, true
   end
 
-  get '/' do
-    haml :index
-  end
+  # get '/' do
+  #   haml :index
+  # end
 
   get '/gems/:name.gemspec' do |name|
     content_type 'text/plain'
