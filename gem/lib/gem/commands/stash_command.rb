@@ -28,7 +28,9 @@ class Gem::Commands::StashCommand < Gem::Command
 
     raise "Could not find GEMFILE: #{gemfile}" unless File.exists?(gemfile)
 
-    http['gems'].post File.read(gemfile)
+    http['gems'].post(read_binary_file(gemfile),
+      :headers => { 'Content-Type', 'application/octet-stream' }
+    )
 
   rescue Exception => ex
     say "Exception: #{ex.message}"
@@ -46,6 +48,10 @@ private ######################################################################
 
   def gemstash_url
     ENV['GEMSTASH_URL'] || GEMSTASH_DEFAULT_URL
+  end
+
+  def read_binary_file(filename)
+    File.open(filename, 'rb') { |io| io.read }
   end
 
 ## configuration #############################################################
