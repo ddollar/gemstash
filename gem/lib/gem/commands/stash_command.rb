@@ -29,7 +29,7 @@ class Gem::Commands::StashCommand < Gem::Command
     raise "Could not find GEMFILE: #{gemfile}" unless File.exists?(gemfile)
 
     http['gems'].post(read_binary_file(gemfile),
-      :headers => { 'Content-Type', 'application/octet-stream' }
+      :content_type => 'application/octet-stream'
     )
 
   rescue Exception => ex
@@ -60,8 +60,8 @@ private ######################################################################
     say "It seems like this is your first time stashing a gem."
     say "You can find your API key at http://gemstash.org/profile"
 
-    key   = ask_until_answered 'Gemstash API Key'
-    stash = ask_until_answered 'Default Stash', options[:stash]
+    key   = ask_until_answered 'Gemstash API Key '
+    stash = ask_until_answered 'Default Stash    ', options[:stash]
 
     Gem.configuration[:gemstash] = { :key => key, :stash => stash }
     Gem.configuration.write
