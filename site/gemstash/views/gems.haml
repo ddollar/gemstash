@@ -1,0 +1,7 @@
+%ul#gems
+  - gems.each do |gem|
+    %li.gem
+      .name= gem
+      %a{ :href => "/gems/#{gem}.gemspec" } gemspec
+      %a{ :href => "/gems/#{gem}.json"    } json
+      

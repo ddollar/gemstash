@@ -64,5 +64,5 @@ function(key, values) {
     return(version_b.sort_against(version_a));
   });
 
-  return({ id: sorted[0]._id, version: sorted[0].version })
+  return({ _id: sorted[0]._id, name: sorted[0].name, version: sorted[0].version })
 }

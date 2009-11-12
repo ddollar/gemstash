@@ -27,6 +27,10 @@ class Gemstash::Site < Sinatra::Base
   #   haml :index
   # end
 
+  get '/gems' do
+    haml :gems
+  end
+
   get '/gems/:name.gemspec' do |name|
     content_type 'text/plain'
     gem_specification(name).to_yaml
@@ -45,8 +49,12 @@ class Gemstash::Site < Sinatra::Base
 
 private ######################################################################
 
+  def gems
+    couchdb.view('gems/all')['rows'].map { |row| row['value']['name'] }
+  end
+
   def gem_hash(name)
-    id = couchdb.first('gems/all', :key => name)['value']['id']
+    id = couchdb.first('gems/all', :key => name)['value']['_id']
     couchdb.get(id)
   end
 
