@@ -61,7 +61,14 @@ function(key, values) {
   var sorted = values.sort(function(a, b) {
     var version_a = new Version(a.version);
     var version_b = new Version(b.version);
-    return(version_b.sort_against(version_a));
+    var sort = version_b.sort_against(version_a);
+
+    if (sort == 0) {
+      if (version_a.updated_at == version_b.updated_at) { sort = 0; }
+      sort = (version_b.updated_at > version_a.updated_at) ? -1 : 1;
+    }
+
+    return (sort);
   });
 
   return({ _id: sorted[0]._id, name: sorted[0].name, version: sorted[0].version })
