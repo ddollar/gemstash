@@ -19,9 +19,9 @@ class Gemstash::Site < Sinatra::Base
   set :display_configs, 3
   set :static, true
 
-  if ENV['RACK_ENV'] == 'development'
+  #if ENV['RACK_ENV'] == 'development'
     set :show_exceptions, true
-  end
+  #end
 
   # get '/' do
   #   haml :index
@@ -42,13 +42,9 @@ class Gemstash::Site < Sinatra::Base
   end
 
   post '/gems' do
-    begin
-      filename = "#{UUID.generate}.gem"
-      s3.put "temp/#{filename}", request.body.read
-      queue.enqueue Gemstash::Job::ProcessUpload.new(filename)
-    rescue Exception => ex
-      return ex.message
-    end
+    filename = "#{UUID.generate}.gem"
+    s3.put "temp/#{filename}", request.body.read
+    queue.enqueue Gemstash::Job::ProcessUpload.new(filename)
   end
 
 private ######################################################################
